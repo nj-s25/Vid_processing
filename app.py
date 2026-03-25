@@ -26,8 +26,14 @@ if uploaded_file is not None:
         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as temp_file:
             temp_file.write(video_bytes)
             temp_file_path = temp_file.name
+            
+        MODEL_PATH = "best.pt"
 
-        model = YOLO("best.pt")
+        if not os.path.exists(MODEL_PATH):
+            raise FileNotFoundError("Model file not found!")
+
+        model = YOLO(MODEL_PATH)
+        
         capture = cv2.VideoCapture(temp_file_path)
         frame_count = 0
 
